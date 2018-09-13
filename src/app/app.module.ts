@@ -1,3 +1,4 @@
+import { AuthService } from './auth.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule}  from '@angular/router';
@@ -18,6 +19,7 @@ import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.componen
 import { LoginComponent } from './login/login.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {NgbPaginationModule, NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
+import { AuthGardService } from "src/app/auth-gard.service";
 
 
 @NgModule({
@@ -45,20 +47,23 @@ import {NgbPaginationModule, NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
     RouterModule.forRoot([
       {path:'', component:HomeComponent },
       {path:'products', component:ProductsComponent },
-      {path:'order-success', component:OrderSuccessComponent },
-      {path:'my-orders', component:MyOrdersComponent },
-      {path:'shopping-cart', component:ShoppingCartComponent },
-      {path:'check-out', component:CheckOutComponent },
       {path:'login', component:LoginComponent },
-      {path:'admin/products', component:AdminProductsComponent },
-      {path:'admin/Orders', component:AdminOrdersComponent },
+      {path:'shopping-cart', component:ShoppingCartComponent },
 
-      
-      
+      {path:'order-success', component:OrderSuccessComponent,canActivate:[AuthGardService] },
+      {path:'my-orders', component:MyOrdersComponent ,canActivate:[AuthGardService]},
+      {path:'check-out', component:CheckOutComponent ,canActivate:[AuthGardService]},
+     
+      {path:'admin/products', component:AdminProductsComponent,canActivate:[AuthGardService] },
+      {path:'admin/Orders', component:AdminOrdersComponent,canActivate:[AuthGardService] },
+
     ])
 
   ],
-  providers: [],
+  providers: [
+    AuthService,
+    AuthGardService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
