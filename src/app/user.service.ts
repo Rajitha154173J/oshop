@@ -1,11 +1,15 @@
-import { FirebaseObjectObservable } from '@angular/fire/database';
+//import { FirebaseObjectObservable } from 'angularfire2/database';
+//import { FirebaseObjectObservable } from '@angular/fire/database';
+
 
 import { AppUser } from './models/app-user';
 
 import { Injectable } from '@angular/core';
 
 import * as firebase from 'firebase';
-import { AngularFireDatabase } from "angularfire2/database";
+
+import { AngularFireDatabase, AngularFireObject } from 'angularfire2/database';
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -21,9 +25,9 @@ export class UserService {
     });
   }
 
-  get(uid : String) : FirebaseObjectObservable<AppUser>{
+  get(uid : String) :Observable <any>  {
 
-    return this.db.object('/users/'+ uid);
+    return this.db.object('/users/'+ uid).valueChanges();
 
   }
 }
